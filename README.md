@@ -1,2 +1,2 @@
-# server_chino_linux_docker_registry_redteam
-Repositorio de scripts y Docker para el manejo de OWASP DependencyCheck.
+# Server Chino Kali Linux Docker Registry RedTeam
+Repositorio de scripts para el manejo de Server Chino Kali Linux Docker Registry.

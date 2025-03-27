@@ -1,6 +1,6 @@
 # Template Scripts
 
-De la misma forma que su [version](https://github.com/admvateam/dependencycheck_redteam)) de contenedor e imagen de docker local. 
+De la misma forma que su [version](https://github.com/admvateam/dependencycheck_redteam) de contenedor e imagen de docker local. 
 Estos Bash Scripts corren un scan de DependencyCheck para proyectos de buildeados con gradle y maven. 
 El dockerfile clona y buildea los proyectos ejemplo correspondientes dentro del contenedor generado y a su vez añade el script del scan.
 Una vez terminado el scan los resultados son subidos a Fortify Software Security Center (SSC).

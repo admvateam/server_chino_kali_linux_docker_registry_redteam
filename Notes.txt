@@ -1,0 +1,50 @@
+# Builds the Docker image
+cd /opt DependencyCheck
+docker build --build-arg HTTP_PROXY=http://10.255.10.33:8080 --build-arg HTTPS_PROXY=http://10.255.10.33:8080 --tag "dependency-check-sca:ubuntu" --file "./dependency-check-sca.dockerfile" .
+docker build --tag "dependency-check-sca:ubuntu" --file "./dependency-check-sca.dockerfile" .
+
+
+# Runs the Docker container interactively
+docker run -it dependency-check-sca:ubuntu
+
+fttput 10.4.36.249 dependencycheck-sca.dockerfile /opt/DependencyCheck/dependencycheck-sca.dockerfile
+fttput 10.4.36.249 Notes.txt /opt/DependencyCheck/Notes.txt
+
+systemctl start docker
+systemctl stop docker
+systemctl restart docker
+systemctl status docker
+
+export http_proxy=http://10.255.10.33:8080; 
+
+export https_proxy=http://10.255.10.33:8080;
+
+docker run -d -p 5000:5000 --name server-chino-kali-docker-registry registry:2
+
+# Checks out a specific version (optional)
+RUN git checkout v7.0.0
+
+# Debugging: Verifies the directory where the repository was cloned properly
+RUN ls -l /opt/DependencyCheck
+
+# Debugging: Verifies the cli directory
+RUN ls -l /opt/DependencyCheck/cli
+
+# Builds DependencyCheck using Maven
+RUN mvn -f /opt/DependencyCheck/cli/pom.xml clean install -e -DskipTests #-X -am
+
+# Debugging: Verifies the working directory after the building
+#RUN ls -l /opt/DependencyCheck
+
+# Debugging: Verifies that the JAR file is built after the building
+RUN ls -l /opt/DependencyCheck /opt/DependencyCheck/cli/target
+
+# Debugging: Verifies that the .zip file exists
+RUN ls -l /opt/DependencyCheck /opt/DependencyCheck/cli/target/release
+
+# Debugging: Verifies that the JAR file is built
+RUN ls -l /opt/DependencyCheck/core/target
+
+# Steps for scan DependencyCheck
+dependenchy-check --out /opt/DependencyCheck/dependency-check-scan-reports --scan /opt/DependencyCheck/dependency-check-repository/cli/src/test/resources --nvdApiKey 76b5b043-c65a-4006-8ba1-43650ac19985
+
